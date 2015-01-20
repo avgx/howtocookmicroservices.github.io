@@ -1,0 +1,50 @@
+---
+layout: post
+title:  "Logging"
+date:   2014-11-01 23:09:00
+---
+
+It’s 2015 and chances are you're using centralized logging. If you don't then you definitely should. This quick post is to share few gems that can help you organize that, and cover especially important attributes and rules that can help you during debug sessions.
+
+So first of all, just to mention you’re likely will have to establish shared library responsible for various ’tech’ things across services, and logging/monitoring kinda falls into this category.
+
+As with anything on this site, it's quite opinionated set of tools and rules. But well, here we go.
+
+### Logging Rules
+
+#### What to log
+What to log and when to log of course everyone is going to select on it's own, but what I can tell you for sure, is that in every log statement you want to have special attributes that will help you identify source, destination and reason of the event.
+
+Apart from standard events for web app, like request processed, we want to log few extra things:
+
+- request is made to other service from client
+    - use specific name pattern applied for all requests performed from one service to another, so that you can easily filter external requests, for example `mia_<destination_service_name>_request`
+- message is enqueued to queue
+- message is dequeued
+
+#### Log attributes
+
+Apart from standard attributes (like for example `environment`, `pid`, `host`) that are coming with splunk, every log statement must have a few other attributes associated with it, so that you can easily filter out requests when you need to:
+
+- `service` - represents service name, i.e. "mia_orders_service" or "mia_orders_service_bg"
+- `request_id` - unique identifier for request made to microservice
+- `type` - represents type of activity that has been processed: `request` for sync or `message` for async communication
+- `timestamp` - numeric timestamp of the event
+
+
+#### Format
+
+Generally speaking, no need to invent anything fancy here, better stick to your logging service's recommendation.
+
+For example:
+
+- [Splunk's Best Practices](http://dev.splunk.com/view/logging-best-practices/SP-CAAADP6)
+- [Loggly's Best Practices](https://www.loggly.com/blog/topic/best-practices/)
+
+#### Gems
+
+- [lograge ruby gem](https://github.com/roidrage/lograge) - simplifies logged details of the request into "splunkable" expression. Easy to adjust and add special tags, like service name, or some other extra per-request log attributes
+- [cabin ruby gem](https://github.com/jordansissel/ruby-cabin) - Structured+contextual logging experiments in Ruby. Provides an easy way to organize your logs.
+
+We'll cover more on how we use and how we setup these tools as we'll get real app to play with.
+

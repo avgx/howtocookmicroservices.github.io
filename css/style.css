@@ -1,0 +1,25 @@
+.navbar-brand {
+ line-height: 36px;
+ height: 60px;
+}
+
+.navbar-default {
+  background-color: #FB4B5A;
+}
+
+.brand-link {
+  color: #ffffff !important;
+}
+
+p {
+  color: #4A4A4A;
+}
+
+.list-contents {
+  li {
+    list-style-type: none;
+  }
+}
+
+ /* red FB4B5A */
+ /* gray 4A4A4A */

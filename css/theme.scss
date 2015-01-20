@@ -1,0 +1,294 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+$base-bright-color: #28bdb3;
+$base-secondary-color: #CD0A27;
+
+// Our variables
+
+// font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+// font-weight: 300;
+
+$base-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$base-bold-font-family: 'Oswald', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$base-font-weight: 300;
+$base-font-size:   16px;
+$small-font-size:  $base-font-size * 0.875;
+
+$spacing-unit:     30px;
+
+$text-color:       #4A4A4A;
+
+$footer-height: 240px;
+
+//
+.navbar-default {
+  background-color: #000;
+  font-family: $base-bold-font-family;
+
+  .brand-link {
+    color: #fff !important;
+  }
+}
+
+.navbar-default-reverse {
+  background-color: #fff;
+  // background: url("/images/debut_light.png");
+  font-family: $base-bold-font-family;
+  margin-bottom: 0px;
+
+  .brand-link {
+    color: #000 !important;
+  }
+}
+
+.inverse-highlight {
+  background-color: $base-secondary-color;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: normal;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: $footer-height;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $footer-height;
+  color: #777;
+  background-color: #000;
+
+  p {
+    padding-top: 20px !important;
+  }
+
+  a {
+    color: #fff;
+  }
+
+  .list-contents {
+    padding-left: 0px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+
+    li {
+      list-style-type: none;
+      line-height: 24px;
+    }
+
+    a.post-link {
+      color: #fff;
+      font-family: $base-bold-font-family;
+      font-size: 16px;
+      font-weight: 100 !important;
+      line-height: 1.0;
+    }
+
+    .post-link.coming-soon {
+      color: #666;
+      font-family: $base-bold-font-family;
+      font-size: 16px;
+      font-weight: 100 !important;
+      line-height: 1.0;
+    }
+  }
+}
+
+h1.about {
+  margin-top: 0px;
+  color: $text-color;
+  font-family: $base-bold-font-family;
+}
+
+.post {
+  color: $text-color;
+  font-family: $base-font-family;
+  font-weight: 500 !important;
+  font-size: 16px;
+  padding-bottom: 60px;
+
+  h1 {
+    margin-top: 0px;
+    color: $text-color;
+    font-family: $base-bold-font-family;
+    background-color: $base-bright-color;
+    padding: 10px 10px;
+    color: #fff;
+  }
+
+  h3 {
+    font-size: 32px;
+  }
+
+  h4 {
+    font-weight: bold;
+  }
+}
+
+.list-contents {
+  padding-left: 0px;
+
+  li {
+    list-style-type: none;
+    line-height: 32px;
+
+    a.post-link {
+      color: #000;
+      font-family: $base-bold-font-family;
+      font-size: 18px;
+    }
+
+    .post-link.coming-soon {
+      color: #666;
+      font-family: $base-bold-font-family;
+      font-size: 16px;
+      font-weight: 100 !important;
+      line-height: 1.0;
+    }
+
+    a.post-link.selected {
+      background-color: $base-bright-color;
+      padding: 5px 10px;
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
+
+.blog-footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e5e5e5;
+}
+
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+ /* red FB4B5A */
+ /* gray 4A4A4A */
+
+.sidebar-module {
+  padding: 15px;
+  margin: 0 -15px 15px;
+}
+
+.sidebar-module-inset {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+.sidebar-module-inset p:last-child,
+.sidebar-module-inset ul:last-child,
+.sidebar-module-inset ol:last-child {
+  margin-bottom: 0;
+}
+
+.about-module {
+  h4 {
+    font-family: $base-bold-font-family;
+  }
+  padding-top: 0px;
+  margin-bottom: 0px;
+}
+
+/* landing page */
+
+.landing-hero-1 {
+  // background-color: $base-bright-color;
+  background: url("/images/sea-4.jpg");
+  background-position: center;
+  background-size:cover;
+
+  h1 {
+    font-family: $base-bold-font-family;
+    font-size: 112px;
+    line-height: 132px;
+    margin: 60px 0;
+    text-align: center;
+
+    @media(max-width: 767px) {
+      font-size: 48px;
+      line-height: 64px;
+    }
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.landing-hero-2 {
+  background-color: #000;
+  // background: rgba(255,255,255, 0.7)    /* 70% opaque red */  
+  // opacity: 0.85;
+  background: url("/images/sea-2.jpg");
+  background-position: top;
+  background-size:cover;
+
+  h1 {
+    font-family: $base-bold-font-family;
+    font-size: 132px;
+    line-height: 180px;
+    margin: 20px 0;
+
+    @media(max-width: 767px) {
+      font-size: 48px;
+      line-height: 52px;
+    }
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+
+   h1.landing-hero-reverse {
+      background-color: $base-bright-color;
+      text-align: center;
+      padding: 0;
+    }
+  }
+}
+
+.landing-hero-3 {
+  // background-color: #fff;
+  background: linear-gradient(#73dceb, #10a0dc); /* Standard syntax */
+
+  h1 {
+    font-family: $base-bold-font-family;
+    font-size: 132px;
+    line-height: 180px;
+    margin: 80px 0;
+
+    @media(max-width: 767px) {
+      font-size: 48px;
+      line-height: 52px;
+    }
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+
+   h1.landing-hero-reverse {
+      // background-color: $base-secondary-color;
+      // background-color: $base-bright-color;
+      text-align: center;
+    }
+  }
+}
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  {% include head.html %}
+
+  <body>
+
+    {% include header.html %}
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="sidebar-module about-module">
+            <h4 class='about'>About</h4>
+            <p>{{ site.tag_line }}</p>
+            <p class="hidden">{{ site.description }}</p>
+            <br/>
+            <a href="/feed.xml" title="Subscribe to the How To Cook Microservices RSS Feed">Subscribe to RSS Feed</a>
+            <br/>
+            <a href="#subscribe" title="Subscribe to How To Cook Microservices Email updates">Subscribe to Email updates</a>
+          </div>
+
+          <div class="sidebar-module">
+            <ul class="list-contents">
+            {% for post in site.posts %}
+              <li>
+                {% if post.url == page.url %}
+                  <a class="post-link selected" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} {% if post.in_progress %} (in progress) {% endif %}</a>
+                {% else %}
+                  {% if post.coming_soon %}
+                    <a class="post-link coming-soon" href="#">{{ post.title }} (coming soon)</a>
+                  {% else %}
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} {% if post.in_progress %} (in progress) {% endif %}</a>
+                  {% endif %}
+                {% endif %}
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-9" >
+          {{content}}
+        </div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+  </body>
+
+</html>

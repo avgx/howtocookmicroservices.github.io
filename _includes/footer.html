@@ -1,0 +1,42 @@
+<div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2">
+        <ul class="list-contents">
+          {% for post in site.posts %}
+            <li>
+              {% if post.coming_soon %}
+                <a class="post-link coming-soon" href="#">{{ post.title }} (coming soon)</a>
+              {% else %}
+                <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} {% if post.in_progress %} (in progress) {% endif %}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="col-xs-3 col-xs-offset-1">
+        <p>{{site.description}}</p>
+        <p>{{site.tag_line}}</p>
+      </div>
+
+      <div class="col-xs-3 col-xs-offset-1">
+        <p>My name is <a href="http://linkedin.com/in/akurkin/" target="_blank" class="post-link">Alex Kurkin</a>. I'm an experienced technical architect focused on rapidly growing startup environments.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '54be11c6eddd5b526006a2b1');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
