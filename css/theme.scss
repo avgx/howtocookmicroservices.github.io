@@ -3,6 +3,8 @@
 ---
 @charset "utf-8";
 
+@import 'signup';
+
 $base-bright-color: #28bdb3;
 $base-secondary-color: #CD0A27;
 
@@ -292,3 +294,9 @@ h1.about {
   }
 }
 
+#mc_embed_signup {
+  background: $base-bright-color;
+  clear: left;
+  color: #fff;
+  font: 18px $base-font-family;
+}
