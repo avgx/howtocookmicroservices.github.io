@@ -1,5 +1,5 @@
 title: How to Cook Microservices
-email: me@rubymicroservices.com
+email: alex@howtocookmicoservices.com
 tag_line: Find out how to cook microservices with Ruby spices!
 description: >
   This site is continuously updated collection of notes, 
@@ -8,7 +8,7 @@ description: >
 
 
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://rubymicroservices.com" # the base hostname & protocol for your site
+url: "http://howtocookmicoservices.com" # the base hostname & protocol for your site
 twitter_username: thaold
 github_username:  thaold
 
