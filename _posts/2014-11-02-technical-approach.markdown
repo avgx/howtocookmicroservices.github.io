@@ -2,6 +2,7 @@
 layout: post
 title:  "Technical Approach"
 date:   2014-11-01 23:35:00
+meta_description: "How to build microservices with ruby. How to build microservices with Rails"
 redirect_from:
     - "updates/02-technical-approach-added.html"
 ---

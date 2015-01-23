@@ -2,6 +2,7 @@
 layout: post
 title:  "Architecture Pattern"
 date:   2014-11-01 23:50:00
+meta_description: "Microservices Architecture Pattern"
 redirect_from:
     - "updates/01-microservices-architecture-pattern.html"
 ---

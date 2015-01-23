@@ -2,6 +2,9 @@
 layout: post
 title:  "Development"
 date:   2014-11-01 23:10:00
+meta_description: "Development of microservices. Microservices development. Microservices vagrant. Microservices chef. Microservices Docker. Microservices Fig + Docker."
+redirect_from:
+    - "updates/04-development.html"
 ---
 Easy thing to draw diagrams and explain how it all supposed to work. It becomes slightly harder when it comes to real development work and establishing development approach in a big team.
 

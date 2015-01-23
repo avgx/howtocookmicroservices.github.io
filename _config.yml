@@ -6,6 +6,9 @@ description: >
   insights and ideas about building software platforms 
   empowered by microservices architecture using Ruby.
 
+meta_description: >
+  Site dedicated to all topics arount microservices and ruby / rails.
+
 
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://howtocookmicroservices.com/" # the base hostname & protocol for your site

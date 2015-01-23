@@ -2,6 +2,7 @@
 layout: post
 title:  "Inter-service Communication"
 date:   2014-11-01 23:34:59
+meta_description: "Communication between Microservices. Microservices communication. Inter-service communication"
 redirect_from:
     - "updates/03-communication.html"
 ---
