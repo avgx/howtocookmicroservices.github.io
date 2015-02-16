@@ -2,7 +2,7 @@
 layout: post
 title:  "Technical Approach"
 date:   2014-11-01 23:35:00
-meta_description: "How to build microservices with ruby. How to build microservices with Rails"
+meta_description: "Microservices ruby and ruby on rails. Covers possible ways to jump onto breaking up monolith into microservices"
 redirect_from:
     - "updates/02-technical-approach-added.html"
 ---

@@ -2,7 +2,7 @@
 layout: post
 title:  "Logging"
 date:   2014-11-01 23:09:00
-meta_description: "Microservices logging. Ruby on Rails logging. Logging best practices."
+meta_description: "Microservices logging. Microservices ruby logging. Logging best practices."
 ---
 
 It’s 2015 and chances are you're using centralized logging. If you don't then you definitely should. This quick post is to share few gems that can help you organize that, and cover especially important attributes and rules that can help you during debug sessions.

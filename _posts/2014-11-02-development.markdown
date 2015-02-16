@@ -2,7 +2,7 @@
 layout: post
 title:  "Development"
 date:   2014-11-01 23:10:00
-meta_description: "Development of microservices. Microservices development. Microservices vagrant. Microservices chef. Microservices Docker. Microservices Fig + Docker."
+meta_description: "Microservices development. Talks about setting up VM and containers for development of distribute system built using microservices architecture."
 redirect_from:
     - "updates/04-development.html"
 ---
