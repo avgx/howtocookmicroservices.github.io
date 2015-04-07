@@ -23,5 +23,7 @@ collections:
   updates:
     output: false
 
+highlighter: pygments
+
 gems:
   - jekyll-redirect-from
