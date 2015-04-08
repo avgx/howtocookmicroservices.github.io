@@ -2,6 +2,8 @@
 layout: post
 title:  "Docker Compose & Docker Machine"
 date:   2014-11-01 23:09:50
+redirect_from:
+    - "updates/05-docker-compose.html"
 ---
 ## TL;DR
 {:.no_toc}
