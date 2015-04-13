@@ -4,6 +4,7 @@ title:  "Docker Compose & Docker Machine"
 date:   2014-11-01 23:09:50
 redirect_from:
     - "updates/05-docker-compose.html"
+    - "updates/06-docker-compose-updates.html"
 ---
 ## TL;DR
 {:.no_toc}
@@ -36,11 +37,11 @@ Ok, let’s start with few goals for this project
 * Enable Service discovery using Consul and Consul-Template
 * Configure platform
     1. to run for development
-        * be smart and pragmatic to re-use same gems installed on multiple services (using volumes)
-        * code must be mounted to container, so that changes will instantly appear in container
+        * be smart and pragmatic to **re-use same gems** installed on multiple services (using volumes)
+        * **code** must be **mounted to container**, so that changes will instantly appear in container
     1. to run as QA/Testing environments (by testing environment here we mean execution of automated acceptance tests)
-        * make containers portable
-        * run bundle install as part of build process
+        * make **containers portable**
+        * run **bundle install** as part of build process
         * cover further enhancements we can make to improve our Continuous Integration and Continuous Delivery flow
         * outline what Continuous Delivery flow would look like
 
@@ -60,7 +61,7 @@ Let's start with tools. We'll briefly touch on these tools with relevant links t
 - [Eight Docker Development Patterns](http://www.hokstad.com/docker/patterns)
 
 #### Docker Machine
-Docker Machine is part of Docker's official set of orchestration tools. It allows you to manage docker "hosts on your computer, on cloud providers and inside your own data center".
+Docker Machine is part of Docker's official set of orchestration tools. It allows you to "manage docker hosts on your computer, on cloud providers and inside your own data center".
 
 We will use **Docker Machine** to create docker host on our local **Mac OS X environment**. As next step we'll be able to use it to create remote machines using many popular cloud providers (full list available on documentation page)
 
@@ -69,7 +70,7 @@ We will use **Docker Machine** to create docker host on our local **Mac OS X env
 #### Docker Compose
 
 It's a command-line tool that allows you to automate configuration and management of containers for complex applications running with Docker.
-It works by processing configuration file that you defined (i.e. docker-compose.yml), and makes it possible to bootsrap full suite of your services in one command: `docker-compose up -d`
+It works by processing configuration file that you define (i.e. docker-compose.yml), and makes it possible to bootsrap full suite of your services in one command: `docker-compose up`
 
 But you get to see how it works in a bit!
 
@@ -88,42 +89,47 @@ Every box is a **container**.
 There are **2 main logical groups of containers**: 
 
   - our **microservices** (on the diagram inside light grey colored box) 
-  - other **'infrastructure' services** like database, elastic, memcache and rabbitmq (on the diagram inside dark blue box).
+  - other **'infrastructure' services** like database, elastic, memcache and rabbitmq (on the diagram inside dark blue box). These are built and deployed straight from image pulled from official Docker registry. So nothing fancy.
 
 (I figured combining containers into logical groups would help picture this integration easier, as having arrows from every microservice container to 'infrastructure' service container will make diagram cluttered so it'll be hard to understand)
 
-Containers that are running microservices connected to “infrastructure” service containers using Docker Compose’s *links* instruction, which automatically links one container to another and enables sharing connection strings via environment variables, so in our service’s config/database.yml file you’ll specify where to connect using environment varaible, something like this:
+**Containers running microservices** are connected to **“infrastructure”** service **containers** using Docker Compose’s **links** instruction, which automatically links one container to another and enables sharing connection strings via environment variables, so in our service `config/database.yml` file you’ll specify connection details using environment varaibles, something like this:
 
 {% highlight yaml %}
-default: &default
-  adapter: mysql2
-  encoding: utf8
-  pool: 5
-  username: root
-  password: root
-  reconnect: true
+#
+# ...
+#
 development:
   <<: *default
-  database: mia_user_service_development
+  database: mia_user_service_<%= ENV['RAILS_ENV'] %>
   host: <%= ENV['WEB_DB_1_PORT_3306_TCP_ADDR'] %>
   port: <%= ENV['WEB_DB_1_PORT_3306_TCP_PORT'] %>
+#
+# ...
+#
 {% endhighlight %}
 
 The same connection principle applies to how all microservice containers connect to infrastructure service containers, simple.
 
-Another way how our microservice containers will discover each other is via **Consul** and **Consul-Template**. We'll see how each container lets Consul know about it's availability to serve requests via **registrator**. Also load-balancer container that is running nginx will be updating live when microservice container becomes available or shuts down. 
+Another way how our microservice containers will **discover each other** is via **Consul** and **Consul-Template**. We'll see how each container lets Consul know about it's availability to serve requests via **registrator**. Also load-balancer container that is running nginx will be updating live when microservice container becomes available or shuts down. 
 
 Exciting thing to talk about!
 
 # Docker Machine
 
 OK before we start with all the setup, let's briefly talk thru Docker Machine.
-Docker Machine will allow us to quickly create host and install Docker there. And also configure your local docker client to point to your machines. 
+Docker Machine will allow us to **quickly create host** and **install Docker** there. And also **configure** your local **docker client** to point to your machines. 
 
 For now we'll be experimenting with localy created Docker Machine that pulls down and installs **boot2docker** for Mac OS X and then spins up machine with a given parameters (memory, disk size)
 
 ### Create local machine with VirtualBox driver
-Notice that we pass following arguments: driver, virtualbox-memory, virtualbox-disk-size and then **name** of the new machine.
+
+Notice that we pass following arguments:
+
+- driver
+- virtualbox-memory
+- virtualbox-disk-size
+- **name** of the new machine
 
 {% highlight bash %}
 $ docker-machine create -d virtualbox --virtualbox-memory "4096" --virtualbox-disk-size "32000" mia
@@ -131,7 +137,7 @@ $ docker-machine create -d virtualbox --virtualbox-memory "4096" --virtualbox-di
 
 ### Configure Docker client
 {% highlight bash %}
-$ $(docker-machine env)
+$ eval $(docker-machine env mia)
 {% endhighlight %}
 
 ### Verify
@@ -171,13 +177,15 @@ $ docker-machine inspect mia
 
 # Docker Compose
 
-Ok, now that we have our machine up and running, we can deploy our containers there. For this, we would need to define how exactly our system would look like. Here comes **Docker Compose**.
+Ok, now that we have our machine up and running, we can deploy our containers there. For this, we would need to define how exactly our system would work. 
+
+Here comes **Docker Compose**.
 
 [Docker Compose - Documentation](http://docs.docker.com/compose/)
 
-Below, is docker-compose.yml for our platform, it consists of the few pieces that are drawn on the diagram above, let me list them below along with their job:
+Below, is docker-compose.yml for our platform, it consists of the few docker images that are drawn on the diagram above, let me list them below along with their job:
 
-1. **Load balancer**
+1. **Load-balancer**
   + nginx (with a pretty-straightforward config based on route matching)
   + consul-template: updates nginx application config every time service becomes available/not available
 1. **Consul**
@@ -217,19 +225,82 @@ Below, is docker-compose.yml for our platform, it consists of the few pieces tha
         have consul-template to update specified file based on supplied template, once service becomes available/unavailable 
     
         **Alternative option would be:**
-        **integrate** with consul **directly** and **query** consul for other services details (in that case you don't even need consul-template). But we are having consul-template here just because for backward compatibility with chef-based provisioning system (again this is take from real life project)
+        **integrate** with consul **directly** and **query** consul for other services details (in that case you don't even need consul-template). But we are having consul-template here just because for backward compatibility with chef-based provisioning system (again this is taken from real life project)
 
-  Below only 3 of the platform microservices included in `docker-compose.yml` to simplify the example. See how microservice containers connect to infrastructure containers (via docker-compose `links`).
+  The most interesting 2 docker images of this setup are (we'll cover them below):
 
-  Another gotcha is that microservice container has exposed port, but doesn't specify port on the host machine, this is done intentionally so that we can have many containers with the same exposed port running.
+  - nginx load-balancer docker image
+  - rails microservice docker image [available on github - akurkin/mia](https://github.com/akurkin/mia) 
+  
+  Why? Because rest of **services** we are having **are built from publicly avaialble docker images**, meaning we don't have to do any setup to make it work.
+
+## Rails Microservice Dockerfile
+
+[Rails Microservice Dockerfile on GitHub - akurkin/mia](https://github.com/akurkin/mia)
+
+Above is a repository with image and respective services, but here I will just list specific instructions and comment on them (for brevity reasons).
+
+Steps of the image build process:
+
+- install some apt-packages (mysql client, runit, nodejs)
+- install consul-template
+- create service directories
+- add shell scripts to service directories (for unicorn, consul-template and consumers). They are one-liners that execute given scripts from service repository
+- set gem/bundle specific environment variables to install gems onto shared volume
+- install bunder
+- `ONBUILD` instructions to add Gemfile/Gemfile.lock and then add code
+
+#### NOTES
+
+- `COPY id_rsa_rosi /root/.ssh/id_rsa` - unfortunately this is a workaround to overcome difficulties with installing private ruby gems, since containers don't have any `secrets` or a way to use private git repos w/o adding key. This is something that hopefully will be fixed in the future
+- set gem/bundle specific environment variables to point to shared rubygems volume
+{% highlight ruby %}
+ENV GEM_HOME /web/rubygems/2.0.0-p643
+ENV BUNDLE_PATH /web/rubygems/2.0.0-p643
+ENV PATH /web/rubygems/2.0.0-p643/bin:$PATH
+{% endhighlight %}
+- notice that `bundle install` is not part of the base Dockerfile for microservice, because as we said above for development environment our gems will be installed in a shared rubygems volume, and you can not mount volumes during your build process, as "it'll violate portability". 
+- our web server (unicorn) will be running on `PORT` 3000 in all containers
+
+## YAML configuration file
+
+  Here's an example of `docker-compose.yml` file. Notice that we also have `common.yml` file which contains shared definition of the service.
+
+  Another gotcha is that microservice container has exposed `PORT` 3000, but doesn't specify port on the host machine, this is done intentionally so that we can have many containers with the same exposed port running.
 
   Environment Variables used:
 
-  - **PORT**: port that is service running on (again, this is something from the old chef-based provisioning, when we had to run services on different ports in one VM, here obviously I would go for standardizing service ports to run on 3000, then we wouldn't need to configure this for every service)
-  - **SERVICE_3020_NAME**: name of the service in consul, can be used in consul-template queries
-  - **SERVICE_3020_TAGS**: list of tags that will be also used in consul-template queries
-  - **SERVICE_PLATFORM**: extra information we can supply to consul
+  - **SERVICE_3000_NAME**: name of the service in consul, can be used in consul-template queries
+  - **SERVICE_3000_TAGS**: list of tags that will be also used in consul-template queries
 
+[Full docker-compose.yml file - Gist](https://gist.github.com/akurkin/1d43fb03c6f415093bab)
+
+Below only 3 of the platform microservices included in `docker-compose.yml` to simplify the example. See how microservice containers connect to infrastructure containers (via docker-compose `links`).
+
+#### common.yml
+{% highlight yaml %}
+#
+# Shared definition of ruby microservice
+#
+microservice:
+  command: "runsvdir /etc/service"
+  environment:
+    PORT: 3000
+    RAILS_ENV: development
+    SERVICE_PLATFORM: "mia"
+  ports:
+    - 3000
+#
+# Shared definition of frontend js client
+#
+frontend:
+  environment:
+    SERVICE_PLATFORM: "mia"
+  ports:
+    - 80
+{% endhighlight %}
+
+#### docker-compose.yml
 {% highlight yaml %}
 #
 # Load Balancer
@@ -294,86 +365,86 @@ elastic:
 #
 # Microservices
 #
-catalog:
-  build: ./services/rosi_catalog_service
-  command: "runsvdir /etc/service"
+user:
+  extends:
+    file: common.yml
+    service: microservice
+  build: ./services/rosi_user_service
   environment:
-    RAILS_ENV: development
-    PORT: 3020
-    SERVICE_3020_NAME: "catalog"
-    SERVICE_3020_TAGS: "backend,catalog"
-    SERVICE_PLATFORM: "mia"
+    SERVICE_3000_NAME: "user"
+    SERVICE_3000_TAGS: "backend,user"
   volumes:
-    - ./services/rosi_catalog_service:/web/service
+    - ./services/rosi_user_service:/web/service
   volumes_from:
     - rubygems
-  ports:
-    - "3020"
   links:
     - db
     - memcache
     - rmq
     - consul
     - elastic
-cart:
-  build: ./services/rosi_cart_service
-  command: "runsvdir /etc/service"
+catalog:
+  extends:
+    file: common.yml
+    service: microservice
+  build: ./services/rosi_catalog_service
   environment:
-    RAILS_ENV: development
-    PORT: 3040
-    SERVICE_3040_NAME: "cart"
-    SERVICE_3040_TAGS: "backend,cart"
-    SERVICE_PLATFORM: "mia"
+    SERVICE_3000_NAME: "catalog"
+    SERVICE_3000_TAGS: "backend,catalog"
   volumes:
-    - ./services/rosi_cart_service:/web/service
+    - ./services/rosi_catalog_service:/web/service
   volumes_from:
     - rubygems
-  ports:
-    - "3040"
   links:
     - db
     - memcache
     - rmq
     - consul
-tax:
-  build: ./services/rosi_tax_service
-  command: "runsvdir /etc/service"
-  environment:
-    RAILS_ENV: development
-    PORT: 3072
-    SERVICE_3072_NAME: "tax"
-    SERVICE_3072_TAGS: "backend,tax"
-    SERVICE_PLATFORM: "mia"
-  volumes:
-    - ./services/rosi_tax_service:/web/service
-  volumes_from:
-    - rubygems
-  ports:
-    - "3072"
-  links:
-    - rmq
-    - consul
+    - elastic
 #
 # Frontend
 #
+keeplounge:
+  extends:
+    file: common.yml
+    service: frontend
+  build: ./frontend/keep_lounge
+  environment:
+    SERVICE_80_NAME: "keeplounge"
+    SERVICE_80_TAGS: "frontend,keep,keeplounge"
+  volumes:
+    - ./frontend/keep_lounge:/web/client
 keepwww:
+  extends:
+    file: common.yml
+    service: frontend
   build: ./frontend/keep_www
   environment:
-    SERVICE_8190_NAME: "keepwww"
-    SERVICE_8190_TAGS: "frontend,keep,keepwww"
-    SERVICE_PLATFORM: "mia"
+    SERVICE_80_NAME: "keepwww"
+    SERVICE_80_TAGS: "frontend,keep,keepwww"
   volumes:
     - ./frontend/keep_www:/web/client
-  ports:
-    - "8190"
 
 {% endhighlight %}
 
-## TO BE CONTINUED...
+## WHAT'S NEXT
 
 - add Load Balancer Dockerfile
 - add information about LB config
-- add MIA Dockerfile
-- some enhancements to microservice setup:
-  + move em all to same port
-- clean up docker-compose.yml
+- make version of docker-compose.yml to be used on CI/QA environments
+- write down how to implement Docker private registry on Mac OS X
+- implement script that can be used to build and then push images to private registry
+- Setup pipeline on Go Cd to watch for changes, then build and push images to private registry
+
+## Reference & Resources
+{:.no_toc}
+
+- [Valueable Docker Links](http://www.nkode.io/2014/08/24/valuable-docker-links.html)
+- [Phil Misiowiec - How to Create a Persistent Ruby Gems Container with Docker](http://www.atlashealth.com/blog/2014/09/persistent-ruby-gems-docker-container/)
+- [Eight Docker Development Patterns](Eight Docker Development Patterns)
+[Persistent Volumes - Data-only container pattern](http://container42.com/2013/12/16/persistent-volumes-with-docker-container-as-volume-pattern/)
+- [DOCUMENTATION - Dockerfile](https://docs.docker.com/reference/builder/#usage)
+- [DOCUMENTATION - Docker Compose](http://docs.docker.com/compose/)
+- [Digital Ocean - Understanding Nginx http proxying and Load Balancing](https://www.digitalocean.com/community/tutorials/understanding-nginx-http-proxying-load-balancing-buffering-and-caching)
+- [Load balancing docker containers with Nginx and Consul-Template](https://tech.bellycard.com/blog/load-balancing-docker-containers-with-nginx-and-consul-template/)
+
