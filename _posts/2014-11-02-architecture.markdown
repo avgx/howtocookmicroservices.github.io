@@ -3,6 +3,8 @@ layout: post
 title:  "Architecture Pattern"
 date:   2014-11-01 23:50:00
 meta_description: "Microservices Architecture Pattern. Answers on basic questions: what is microservice, why to build microservices and then how to build microservices"
+sections:
+    - 'Microservices Notes'
 redirect_from:
     - "updates/01-microservices-architecture-pattern.html"
 ---

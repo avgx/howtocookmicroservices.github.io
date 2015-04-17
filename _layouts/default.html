@@ -25,12 +25,18 @@
             {% for post in site.posts %}
               <li>
                 {% if post.url == page.url %}
-                  <a class="post-link selected" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} {% if post.in_progress %} (in progress) {% endif %}</a>
+                  <a class="post-link selected" href="{{ post.url | prepend: site.baseurl }}">
+                  {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %}
+                  {% if post.in_progress %} (in progress) {% endif %}
+                  </a>
                 {% else %}
                   {% if post.coming_soon %}
                     <a class="post-link coming-soon" href="#">{{ post.title }} (coming soon)</a>
                   {% else %}
-                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} {% if post.in_progress %} (in progress) {% endif %}</a>
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+                    {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %}
+                    {% if post.in_progress %} (in progress) {% endif %}
+                    </a>
                   {% endif %}
                 {% endif %}
               </li>

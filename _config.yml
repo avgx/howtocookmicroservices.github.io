@@ -23,6 +23,12 @@ collections:
   updates:
     output: false
 
+sections:
+  - Microservices Notes
+  - Development Environment
+  - Continuous Delivery
+  - Implementation Details
+
 highlighter: pygments
 
 gems:

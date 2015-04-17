@@ -7,49 +7,66 @@
     <div class="landing-hero-1">
       <div class="container">
         <div class="row">
-          <div class="col-sm-12">
-            <a href="/architecture/"><h1 class="landing-hero">Microservices Architecture</h1></a>
+          <div class="col-sm-10 col-sm-offset-1">
+            <h2 class="hero-tag">
+            <strong>How To Cook Microservices</strong> (with Ruby spices) is a continuously updated collection of notes, insights and ideas about building software platforms empowered by microservices architecture with Ruby language.
+            </h2>
+            <!-- <a href="/architecture/"><h1 class="landing-hero">Microservices Architecture</h1></a> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div class="landing-hero-2">
+    <div class="intro-sections">
       <div class="container">
         <div class="row">
-          <div class="col-xs-5 col-xs-offset-1">
-            <h1 class="landing-hero"><a href="/architecture/#why">WHY?</a></h1>
-          </div>
-          <div class="col-xs-6">
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-4 col-xs-offset-4">
-            <a href="/architecture/#how"><h1 class="landing-hero">HOW?</h1></a>
-          </div>
-          <div class="col-sm-4"></div>
-        </div>
-
-        <div class="row">
-          <div class="col-xs-5 col-xs-offset-7">
-            <h1 class="landing-hero"><a href="/architecture/#architecture">WHAT?</a></h1>
+          <div class="col-sm-10 col-sm-offset-1">
+            <h4>Our topics so far ...</h4>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="landing-hero-3">
+    <div class="site-sections">
       <div class="container">
-        <div class="row">
-          <div class="col-sm-8 col-xs-offset-2">
-            <a href="/architecture/"><h1 class="landing-hero-reverse">LEARN MORE</h1></a>
-          </div>
-          <div class="col-sm-2"></div>
-        </div>
+        {% for site_section in site.sections %}
+        {% assign site_section_index = forloop.index | modulo: 2 %}
+
+          {% if site_section_index == 1 %}
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-1">
+                <h2>{{site_section}}</h2>
+
+                <ul>              
+                  {% for post in site.posts %}
+                    {% if post.sections contains site_section %}
+                      <li>
+                        <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+          {% else %}
+              <div class="col-sm-5">
+                <h2>{{site_section}}</h2>
+
+                <ul>
+                {% for post in site.posts %}
+                  {% if post.sections contains site_section %}
+                    <li>
+                      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
-
+    
     {% include footer.html %}
   </body>
 </html>

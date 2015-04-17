@@ -14,6 +14,7 @@ $base-secondary-color: #CD0A27;
 // font-weight: 300;
 
 $base-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$base-font-family-alternative: "HelveticaNeue-Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $base-bold-font-family: 'Oswald', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $base-font-weight: 300;
 $base-font-size:   16px;
@@ -23,7 +24,7 @@ $spacing-unit:     30px;
 
 $text-color:       #4A4A4A;
 
-$footer-height: 240px;
+$footer-height: 100px;
 
 //
 .navbar-default {
@@ -210,86 +211,41 @@ h1.about {
 /* landing page */
 
 .landing-hero-1 {
-  // background-color: $base-bright-color;
-  background: url("/images/sea-4.jpg");
-  background-position: center;
-  background-size:cover;
+  padding-top: 30px;
+  border-top: 5px $base-bright-color  solid;
 
-  h1 {
-    font-family: $base-bold-font-family;
-    font-size: 112px;
-    line-height: 132px;
-    margin: 60px 0;
-    text-align: center;
-
-    @media(max-width: 767px) {
-      font-size: 48px;
-      line-height: 64px;
+  h2.hero-tag {
+    strong {
+      font-family: $base-bold-font-family;
     }
-  }
-
-  a {
-    color: #fff;
-    text-decoration: none;
+    font-family: $base-font-family;
+    line-height: 1.25em;
   }
 }
 
-.landing-hero-2 {
-  background-color: #000;
-  // background: rgba(255,255,255, 0.7)    /* 70% opaque red */  
-  // opacity: 0.85;
-  background: url("/images/sea-2.jpg");
-  background-position: top;
-  background-size:cover;
-
-  h1 {
-    font-family: $base-bold-font-family;
-    font-size: 132px;
-    line-height: 180px;
-    margin: 20px 0;
-
-    @media(max-width: 767px) {
-      font-size: 48px;
-      line-height: 52px;
-    }
-  }
-
-  a {
-    color: #fff;
-    text-decoration: none;
-
-   h1.landing-hero-reverse {
-      background-color: $base-bright-color;
-      text-align: center;
-      padding: 0;
-    }
-  }
+.intro-sections {
+  padding-top: 30px;
+  padding-bottom: 20px;
 }
 
-.landing-hero-3 {
-  // background-color: #fff;
-  background: linear-gradient(#73dceb, #10a0dc); /* Standard syntax */
+.site-sections {
+  padding-bottom: 60px;
 
-  h1 {
+  h2 {
     font-family: $base-bold-font-family;
-    font-size: 132px;
-    line-height: 180px;
-    margin: 80px 0;
-
-    @media(max-width: 767px) {
-      font-size: 48px;
-      line-height: 52px;
-    }
+    font-size: 26px;
   }
 
-  a {
-    color: #fff;
-    text-decoration: none;
+  ul {
+    list-style-type: none;
+    padding-left: 16px;
+  }
 
-   h1.landing-hero-reverse {
-      // background-color: $base-secondary-color;
-      // background-color: $base-bright-color;
-      text-align: center;
+  li {
+    a {
+      font-family: $base-font-family-alternative;
+      font-size: 24px;
+      color: $base-bright-color;
     }
   }
 }
