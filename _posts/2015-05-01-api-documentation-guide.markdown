@@ -30,10 +30,10 @@ Perfect API documentation:
 # Rails specific tools
 We go over few tools and approaches we've tried, and cover pros and cons of each and come up with recommendation in the end. Of course no perfect solution exists for this problem, but there are different trade-offs here and there that we're going to discover and talk thru, so that you can find best tool to solve your problem.
 
-[ ] fdoc
-[ ] apipie
-[ ] API Blueprint
-[ ] pacto
+- [ ] fdoc
+- [ ] apipie
+- [ ] API Blueprint
+- [ ] pacto
 
 ### square/fdoc
 
