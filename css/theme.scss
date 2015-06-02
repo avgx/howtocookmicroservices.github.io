@@ -249,6 +249,14 @@ h1.about {
   }
 }
 
+.journal-updates {
+  a {
+    font-family: $base-font-family;
+    line-height: 1.25em;
+    color: #000;
+  }
+}
+
 #mc_embed_signup {
   background: $base-bright-color;
   clear: left;

@@ -5,19 +5,20 @@ short_title:  "API Documentation Guide"
 date:   2014-11-01 23:08:50
 sections:
     - 'Implementation Details'
-<!-- redirect_from: -->
+redirect_from:
+    - "updates/07-api-documentation-first-notes-added.html"
 ---
 
 Getting **API documentation** done right is hard. Keeping it up to date is even harder. Yet it's a critical part of every microservice. API documentation is a **"face" of microservice** (read: dev team) because it's the first thing that people see, and better it be slick and fresh. Below are few tips and approaches how to achieve it.
 
-## API Documentation goals
+## API Documentation Requirements
 
 Perfect API documentation:
 
 - is **easy to navigate** and understand
 - **automatically generated**
 - **integrated with tests**:
-    + docs are used as expectation against endpoints. So for example if you update endpoint's template and forgot to update documentation your test suite will fail as your docs wouldn't be up to date
+    + docs are used as expectation against endpoints. So for example if you update endpoint's template and forget to update documentation your test suite will fail as your docs wouldn't be up-to-date
     + executed as part of test build (i.e. with rspec)
 - should be **easy to modify**:
     + has support of partials
@@ -30,10 +31,16 @@ Perfect API documentation:
 # Rails specific tools
 We go over few tools and approaches we've tried, and cover pros and cons of each and come up with recommendation in the end. Of course no perfect solution exists for this problem, but there are different trade-offs here and there that we're going to discover and talk thru, so that you can find best tool to solve your problem.
 
+COVERED:
+
 - fdoc
+
+TO DO:
+
 - apipie
 - API Blueprint
 - pacto
+- swagger
 
 ### square/fdoc
 
