@@ -1,13 +1,14 @@
 ---
 layout: post
 title:  "Development Environment with Vagrant"
-short_title: "Development Environment"
+short_title: "Development with Vagrant"
 date:   2014-11-01 23:10:00
 meta_description: "Microservices development. Talks about setting up VM and containers for development of distribute system built using microservices architecture."
 sections:
     - 'Development Environment'
 redirect_from:
     - "updates/04-development.html"
+    - "development.html"
 ---
 Easy thing to draw diagrams and explain how it all supposed to work. It becomes slightly harder when it comes to real development work and establishing development approach in a big team.
 

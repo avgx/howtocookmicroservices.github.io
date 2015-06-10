@@ -79,7 +79,7 @@ Orchestration style provides a very different angle on this problem as opposed t
 
 
 ### Summary
-I really like an idea of **Choreography**{:.inverse-highlight} style, as it encourages loose coupling without violating business domain's borders. As producer of the message doesn't have to know what other service supposed to do, it just provides an event, to which consumers may respond or no.
+I really like an idea of **Choreography** style, as it encourages loose coupling without violating business domain's borders. As producer of the message doesn't have to know what other service supposed to do, it just provides an event, to which consumers may respond or no.
 
 ## Resources
 

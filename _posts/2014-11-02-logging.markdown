@@ -13,9 +13,7 @@ So first of all, just to mention you’re likely will have to establish shared l
 
 As with anything on this site, it's quite opinionated set of tools and rules. But well, here we go.
 
-### Logging Rules
-
-#### What to log
+### What to log
 What to log and when to log of course everyone is going to select on it's own, but what I can tell you for sure, is that in every log statement you want to have special attributes that will help you identify source, destination and reason of the event.
 
 Apart from standard events for web app, like request processed, we want to log few extra things:
@@ -25,7 +23,7 @@ Apart from standard events for web app, like request processed, we want to log f
 - message is enqueued to queue
 - message is dequeued
 
-#### Log attributes
+### Log attributes
 
 Apart from standard attributes (like for example `environment`, `pid`, `host`) that are coming with splunk, every log statement must have a few other attributes associated with it, so that you can easily filter out requests when you need to:
 
@@ -35,7 +33,7 @@ Apart from standard attributes (like for example `environment`, `pid`, `host`) t
 - `timestamp` - numeric timestamp of the event
 
 
-#### Format
+### Format
 
 Generally speaking, no need to invent anything fancy here, better stick to your logging service's recommendation.
 
@@ -44,7 +42,7 @@ For example:
 - [Splunk's Best Practices](http://dev.splunk.com/view/logging-best-practices/SP-CAAADP6)
 - [Loggly's Best Practices](https://www.loggly.com/blog/topic/best-practices/)
 
-#### Gems
+### Gems
 
 - [lograge ruby gem](https://github.com/roidrage/lograge) - simplifies logged details of the request into "splunkable" expression. Easy to adjust and add special tags, like service name, or some other extra per-request log attributes
 - [cabin ruby gem](https://github.com/jordansissel/ruby-cabin) - Structured+contextual logging experiments in Ruby. Provides an easy way to organize your logs.

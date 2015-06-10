@@ -33,7 +33,7 @@ Those items above are not theories broken out for reading yet one more time. Thi
 ### How? {#how}
 Now as we are getting closer to "how" part, I’ll mention that we've built this platform using Ruby language and focusing primarily on Ruby on Rails framework, but of course there are few more options that may be a great fit in this particular architecture. We’ll cover them over time.
 
-And now onto exciting "what" part of this idea. We are building an **e-commerce platform**{:.inverse-highlight} that:
+And now onto exciting "what" part of this idea. We are building an **e-commerce platform** that:
 
 - talks JSON over HTTP
 - frontend agnostic (anything can consume data, because it’s just an API):
@@ -89,7 +89,7 @@ As you can see on the image, microservice is a completely independent applicatio
 - has it's own codebase
 - has clearly defined data ownership
 
-This approach provides quite a few **advantages at scale**{:.inverse-highlight}:
+This approach provides quite a few **advantages at scale**:
 
 - independent deployments
 - issues are easier to diagnose and debug

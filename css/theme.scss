@@ -13,7 +13,8 @@ $base-secondary-color: #CD0A27;
 // font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 // font-weight: 300;
 
-$base-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$base-font-family: "PT Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$title-font-family: "Oswald", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $base-font-family-alternative: "HelveticaNeue-Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $base-bold-font-family: 'Oswald', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $base-font-weight: 300;
@@ -112,11 +113,25 @@ h1.about {
   font-family: $base-bold-font-family;
 }
 
+h2 {
+  font-family: $title-font-family;
+}
+
+h3 {
+  font-family: $title-font-family;
+  font-size: 32px;
+}
+
+h4 {
+  font-family: $title-font-family;
+  padding-top: 16px;
+}
+
 .post {
   color: $text-color;
   font-family: $base-font-family;
-  font-weight: 500 !important;
-  font-size: 16px;
+  // font-weight: 500 !important;
+  font-size: 18px;
   padding-bottom: 60px;
 
   h1 {
@@ -128,12 +143,11 @@ h1.about {
     color: #fff;
   }
 
-  h3 {
-    font-size: 32px;
-  }
 
-  h4 {
-    font-weight: bold;
+  strong {
+    background-color: rgba(255,210,59, 0.7);
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 
@@ -211,12 +225,13 @@ h1.about {
 
 .landing-hero-1 {
   padding-top: 30px;
-  border-top: 5px $base-bright-color  solid;
+  border-top: 5px $base-bright-color solid;
 
   h2.hero-tag {
     strong {
       font-family: $base-bold-font-family;
     }
+
     font-family: $base-font-family;
     line-height: 1.25em;
   }
@@ -251,9 +266,18 @@ h1.about {
 
 .journal-updates {
   a {
-    font-family: $base-font-family;
+    font-family: $title-font-family;
     line-height: 1.25em;
     color: #000;
+  }
+
+  h1 {
+    font-family: $title-font-family;
+  }
+
+  p, li {
+    font-family: $base-font-family;
+    font-size: 18px;
   }
 }
 

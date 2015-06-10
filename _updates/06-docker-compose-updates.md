@@ -1,5 +1,5 @@
 ---
-title: "Development environment with docker-machine and docker-compose: UPDATED"
+title: "Development with docker-machine and docker-compose: UPDATED"
 author: Alex Kurkin
 date:   2015-04-08 00:00:00
 ---

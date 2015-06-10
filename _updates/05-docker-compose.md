@@ -1,5 +1,5 @@
 ---
-title: "Development environment on docker-machine and docker-compose (Part 1)"
+title: "Development using docker-machine and docker-compose (Part 1)"
 author: Alex Kurkin
 date:   2015-04-07 00:00:00
 ---

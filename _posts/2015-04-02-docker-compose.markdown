@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Development with Docker Compose"
-short_title:  "Docker Compose & Docker Machine"
+short_title:  "Development with Docker Compose"
 date:   2014-11-01 23:09:50
 sections:
     - 'Development Environment'

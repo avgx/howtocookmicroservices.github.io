@@ -15,7 +15,7 @@ Getting **API documentation** done right is hard. Keeping it up to date is even 
 
 Perfect API documentation:
 
-- is **easy to navigate** and understand
+- **easy to navigate** and understand
 - **automatically generated**
 - **integrated with tests**:
     + docs are used as expectation against endpoints. So for example if you update endpoint's template and forget to update documentation your test suite will fail as your docs wouldn't be up-to-date
