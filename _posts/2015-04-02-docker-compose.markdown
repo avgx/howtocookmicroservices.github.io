@@ -45,7 +45,7 @@ Ok, let’s start with few goals for this project
         * **code** must be **mounted to container**, so that changes will instantly appear in container
     1. to run as QA/Testing environments (by testing environment here we mean execution of automated acceptance tests)
         * make **containers portable**
-        * run **bundle install** as part of build process
+        * run **bundle install** as part of build process (where `bundle install` is part of Dockerfile)
         * cover further enhancements we can make to improve our Continuous Integration and Continuous Delivery flow
         * outline what Continuous Delivery flow would look like
 
@@ -92,12 +92,14 @@ Every box is a **container**.
 
 There are **2 main logical groups of containers**: 
 
-  - our **microservices** (on the diagram inside light grey colored box) 
-  - other **'infrastructure' services** like database, elastic, memcache and rabbitmq (on the diagram inside dark blue box). These are built and deployed straight from image pulled from official Docker registry. So nothing fancy.
+  - **microservices** (on the diagram inside light grey colored box) 
+  - **'infrastructure' services** like database, elastic, memcache and rabbitmq (on the diagram inside dark blue box). These are built and deployed straight from image pulled from official Docker registry. So nothing fancy.
 
 (I figured combining containers into logical groups would help picture this integration easier, as having arrows from every microservice container to 'infrastructure' service container will make diagram cluttered so it'll be hard to understand)
 
 **Containers running microservices** are connected to **“infrastructure”** service **containers** using Docker Compose’s **links** instruction, which automatically links one container to another and enables sharing connection strings via environment variables, so in our service `config/database.yml` file you’ll specify connection details using environment varaibles, something like this:
+
+#### config/database.yml
 
 {% highlight yaml %}
 #
@@ -122,7 +124,7 @@ Exciting thing to talk about!
 # Docker Machine
 
 OK before we start with all the setup, let's briefly talk thru Docker Machine.
-Docker Machine will allow us to **quickly create host** and **install Docker** there. And also **configure** your local **docker client** to point to your machines. 
+Docker Machine allows us to **quickly create host** and **install Docker** there. And also **configure** your local **docker client** to point to your machines. 
 
 For now we'll be experimenting with localy created Docker Machine that pulls down and installs **boot2docker** for Mac OS X and then spins up machine with a given parameters (memory, disk size)
 
@@ -181,13 +183,13 @@ $ docker-machine inspect mia
 
 # Docker Compose
 
-Ok, now that we have our machine up and running, we can deploy our containers there. For this, we would need to define how exactly our system would work. 
+Ok, now that we have our machine up and running, we can deploy our containers there. For this, we would need to define how exactly our system would integrate.
 
 Here comes **Docker Compose**.
 
 [Docker Compose - Documentation](http://docs.docker.com/compose/)
 
-Below, is docker-compose.yml for our platform, it consists of the few docker images that are drawn on the diagram above, let me list them below along with their job:
+Below, is `docker-compose.yml` for our platform, it consists of the few docker images that are drawn on the diagram above, let me list them below along with their job:
 
 1. **Load-balancer**
   + nginx (with a pretty-straightforward config based on route matching)
@@ -202,9 +204,9 @@ Below, is docker-compose.yml for our platform, it consists of the few docker ima
     [Shane Sveller - Load-balancing Docker containers with Nginx and Consul-Template](https://tech.bellycard.com/blog/load-balancing-docker-containers-with-nginx-and-consul-template/)
 1. Data-only containers
   + for database data
-  + for RubyGems
+  + for RubyGems (**NOTE**: this is **only for development environment**)
 
-    Because we want to have persisted ruby gems outside of our microservice too.
+    Because we want to have persisted ruby gems outside of our microservice too. (again, only in development environment)
     
     Implementation is fairly straightforward:
 
@@ -223,7 +225,7 @@ Below, is docker-compose.yml for our platform, it consists of the few docker ima
 1. RabbitMQ
 1. Elastic
 1. **Microservice Containers**
-  - Rails app running unicorn that is available on exposed port
+  - rails-api app running unicorn that is available on exposed port
   - Consul-Template service
 
         have consul-template to update specified file based on supplied template, once service becomes available/unavailable 
@@ -233,14 +235,16 @@ Below, is docker-compose.yml for our platform, it consists of the few docker ima
 
   The most interesting 2 docker images of this setup are (we'll cover them below):
 
+  - rails microservice docker image [available on github - howtocookmicroservices/mia](https://github.com/howtocookmicroservices/mia) 
   - nginx load-balancer docker image
-  - rails microservice docker image [available on github - akurkin/mia](https://github.com/akurkin/mia) 
   
   Why? Because rest of **services** we are having **are built from publicly avaialble docker images**, meaning we don't have to do any setup to make it work.
 
+
+
 ## Rails Microservice Dockerfile
 
-[Rails Microservice Dockerfile on GitHub - akurkin/mia](https://github.com/akurkin/mia)
+[Rails Microservice Dockerfile on GitHub - howtocookmicroservices/mia](https://github.com/howtocookmicroservices/mia)
 
 Above is a repository with image and respective services, but here I will just list specific instructions and comment on them (for brevity reasons).
 
@@ -249,9 +253,9 @@ Steps of the image build process:
 - install some apt-packages (mysql client, runit, nodejs)
 - install consul-template
 - create service directories
-- add shell scripts to service directories (for unicorn, consul-template and consumers). They are one-liners that execute given scripts from service repository
+- add shell scripts to service directories (for unicorn, consul-template and consumers). They are one-liners that execute given scripts from service repository. Also to note that scripts to execute are added via git submodule and are the same across all of the rails microservices
 - set gem/bundle specific environment variables to install gems onto shared volume
-- install bunder
+- install gem bundler
 - `ONBUILD` instructions to add Gemfile/Gemfile.lock and then add code
 
 #### NOTES
@@ -265,6 +269,68 @@ ENV PATH /web/rubygems/2.0.0-p643/bin:$PATH
 {% endhighlight %}
 - notice that `bundle install` is not part of the base Dockerfile for microservice, because as we said above for development environment our gems will be installed in a shared rubygems volume, and you can not mount volumes during your build process, as "it'll violate portability". 
 - our web server (unicorn) will be running on `PORT` 3000 in all containers
+
+## Nginx Load Balancer Dockerfile
+
+Basically consists of nginx image, nginx load balancer config and consul-template, that will listen for changes in services availability and will update load balancer config with microservice's urls.
+
+Nginx loadbalancer consists of 3 parts:
+  
+  - default web server to render the message if service not available at given path
+  - definition of upstream servers (to know how to reach to microservice)
+  - regexp rule to route all requests from particular path to desired microservice
+  
+  **NOTE:** consul-template uses go-template package to query and build files, here's a link to [documentation of go-template](http://golang.org/pkg/text/template/)
+
+This is example loadbalancer.nginx config:
+
+#### web server on port 65333
+    server {
+      listen 65333;
+    
+      location / {
+        types {
+          application/json json;
+        }
+        default_type "application/json";
+        return 501 '{
+      "success": false,
+      "deploy": false,
+      "status": 501,
+      "body": {
+        "message": "No available upstream servers at current route from consul"
+      }
+    }';
+      }
+    }
+
+#### upstream server (get from consul)
+
+{% highlight bash %}
+upstream user {
+  least_conn;{% raw %}
+  {{ range service "backend.user" }}
+  server {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;
+  {{else}}
+  server 127.0.0.1:65333;
+  {{end}}{% endraw %}
+}
+{% endhighlight %}
+
+#### load balancer rule
+    server {
+      listen 80;
+      #
+      # ...
+      #
+      location /user_service {
+        proxy_pass http://user;
+      }
+      #
+      # ...
+      #
+    }
+
 
 ## YAML configuration file
 
@@ -430,15 +496,6 @@ keepwww:
     - ./frontend/keep_www:/web/client
 
 {% endhighlight %}
-
-## WHAT'S NEXT
-
-- add Load Balancer Dockerfile
-- add information about LB config
-- make version of docker-compose.yml to be used on CI/QA environments
-- write down how to implement Docker private registry on Mac OS X
-- implement script that can be used to build and then push images to private registry
-- Setup pipeline on Go Cd to watch for changes, then build and push images to private registry
 
 ## Reference & Resources
 {:.no_toc}

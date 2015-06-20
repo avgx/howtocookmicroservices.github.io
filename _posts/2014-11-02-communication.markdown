@@ -40,7 +40,7 @@ I have to say, we've used RabbitMQ along with Ruby Bunny gem and absolutely amaz
 
 Now let's cover 2 types of asynchronous communication and which one to use on example. 
 
-### Example
+#### Example
 Imagine we have inventory service that either monitors file on FTP from warehouse or receives a request from warehouse about incoming SKU. When we get new information about SKU, few things should happen:
 
 - record new numbers for SKU
