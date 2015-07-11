@@ -8,6 +8,7 @@ sections:
     - 'Continuous Delivery'
 redirect_from:
     - "updates/09-continuous-delivery-with-docker-first-notes-added.html"
+    - "updates/10-continuous-delivery-with-docker-pipeline-diagram-added-and-gocd-intro.html"
 ---
 
 hey what’s up guys, after reading this post you will know **how to build continuous delivery pipeline with docker**, building pieces of it and necessary steps required to **implement** it the **right way**!
@@ -16,17 +17,17 @@ hey what’s up guys, after reading this post you will know **how to build conti
 {:toc}
 
 
-#### WHAT'S COMING
+#### THE PLAN
 
-- Overview (*added on 03-07-2015*)
-- Tools (*added on 03-07-2015*)
-- Pipeline diagram (*added on 10-07-2015*)
-- GO.CD Intro (*added on 10-07-2015*)
+- <del><b>Overview</b></del> (*added on 03-07-2015*)
+- <del><b>Tools</b></del> (*added on 03-07-2015*)
+- <del><b>Pipeline diagram</b></del> (*added on 10-07-2015*)
+- Update diagram to picture high-level pipeline from buidling an image to deploying it to remote environment
+- <del><b>GO.CD Intro</b></del> (*added on 10-07-2015*)
 - Setup of GO.CD on local using docker-machine
 - Setup of GO.CD Agents on local using custom boot2docker image
 - Building custom boot2docker image (to run GO.CD agent and docker-compose)
 - Configuration of pipelines (cover Dockerfiles, docker-compose etc)
-
 
 If you want to know how to easily build something like this, subscribe and read on!
 
