@@ -164,6 +164,12 @@ h4 {
       font-size: 18px;
     }
 
+    a.video-link {
+      color: #000;
+      font-family: $base-bold-font-family;
+      font-size: 15px;
+    }
+
     .post-link.coming-soon {
       color: #666;
       font-family: $base-bold-font-family;
@@ -175,6 +181,13 @@ h4 {
     a.post-link.selected {
       background-color: $base-bright-color;
       padding: 5px 10px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    a.video-link.selected {
+      background-color: $base-bright-color;
+      padding: 5px 5px;
       color: #fff;
       text-decoration: none;
     }

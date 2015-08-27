@@ -25,13 +25,17 @@
             {% for post in site.posts %}
               <li>
                 {% if post.url == page.url %}
-                  <a class="post-link selected" href="{{ post.url | prepend: site.baseurl }}">
-                  {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %}
-                  {% if post.in_progress %} (in progress) {% endif %}
-                  </a>
+                  {% if post.hide_in_sidebar %}
+                  {% else %}
+                    <a class="post-link selected" href="{{ post.url | prepend: site.baseurl }}">
+                    {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %}
+                    {% if post.in_progress %} (in progress) {% endif %}
+                    </a>
+                  {% endif %}
                 {% else %}
                   {% if post.coming_soon %}
                     <a class="post-link coming-soon" href="#">{{ post.title }} (coming soon)</a>
+                  {% elsif post.hide_in_sidebar %}
                   {% else %}
                     <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
                     {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %}
@@ -42,6 +46,26 @@
               </li>
             {% endfor %}
             </ul>
+
+            <h3>Videos</h3>
+              <ul class="list-contents">
+                {% for post in site.posts %}
+                  {% if post.sections contains 'Videos / Screencasts' %}
+                  <li>
+                  {% if post.url == page.url %}
+                    <a class="video-link selected" href="{{ post.url | prepend: site.baseurl }}">
+                      {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %} - <span class='small'>{{ post.duration }}</span>
+                    </a>
+                  {% else %}
+                    <a class="video-link" href="{{ post.url | prepend: site.baseurl }}">
+                      {% if post.short_title == nil %} {{ post.title }} {% else %} {{ post.short_title }} {% endif %} - <span class='small'>{{ post.duration }}</span>
+                    </a>
+                  {% endif %}
+                  </li>
+                  {% else %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
           </div>
         </div>
 
